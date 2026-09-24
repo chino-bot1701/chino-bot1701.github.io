@@ -353,7 +353,7 @@ footer a:hover{color:var(--accent)}
   </header>
 
   <div class="stats">
-    <div class="stat"><b>6</b><span>Production systems</span></div>
+    <div class="stat"><b>7</b><span>Production systems</span></div>
     <div class="stat"><b>R · Python</b><span>Both, in production</span></div>
     <div class="stat"><b>Snowflake</b><span>Warehouse &amp; Cortex</span></div>
     <div class="stat"><b>LFPIORPI</b><span>AML compliance domain</span></div>
@@ -395,6 +395,31 @@ footer a:hover{color:var(--accent)}
     <!-- 2 -->
     <article class="card">
       <div class="card-top">
+        <h3>Land Valuation Model</h3>
+        <span class="badge live">Live demo</span>
+      </div>
+      <p>
+        What is this parcel worth, and how sure? A valuation model over 2,600 land
+        transactions that returns <em>a calibrated range, not a number</em> — 90%
+        promised, 90.2% measured. Prices are restated for inflation first, because
+        otherwise the model learns that recent is expensive and calls it value.
+        Pointed at the group's own portfolio, it finds the purchases made outside
+        the market.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">scikit-learn</span>
+        <span class="chip">Regression</span><span class="chip">Conformal prediction</span>
+        <span class="chip">Streamlit</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://property-valuation-model.streamlit.app">Open demo</a>
+        <a class="btn" href="https://github.com/chino-bot1701/property-valuation-model">Code</a>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="card">
+      <div class="card-top">
         <h3>AML Anomaly Detection</h3>
         <span class="badge live">Live demo</span>
       </div>
@@ -416,7 +441,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 3 -->
+    <!-- 4 -->
     <article class="card">
       <div class="card-top">
         <h3>ERP → Snowflake ELT</h3>
@@ -439,7 +464,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 4 -->
+    <!-- 5 -->
     <article class="card">
       <div class="card-top">
         <h3>AML Regulatory Connector</h3>
@@ -462,7 +487,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 5 -->
+    <!-- 6 -->
     <article class="card">
       <div class="card-top">
         <h3>Bank Reconciliation — Host-to-Host</h3>
@@ -484,7 +509,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 6 -->
+    <!-- 7 -->
     <article class="card">
       <div class="card-top">
         <h3>Bank Statement Consolidator</h3>
@@ -510,7 +535,7 @@ footer a:hover{color:var(--accent)}
   <div class="note">
     <h2>About these repositories</h2>
     <p>
-      Five of the six are <strong>real production systems, rewritten for public
+      Five of the seven are <strong>real production systems, rewritten for public
       release</strong>. Companies, tenants, properties, tax IDs, bank accounts, people
       and vendor endpoints are invented; credentials live in environment variables and
       are not included; sample data is generated and matches the shape of the real data,
@@ -518,9 +543,10 @@ footer a:hover{color:var(--accent)}
       decisions are the real ones — that is the part worth showing.
     </p>
     <p>
-      The sixth, <strong>AML Anomaly Detection</strong>, is different and says so at the
-      top of its README: it is a reference implementation on generated data, and the
-      production system it is modeled on is in design, not deployed.
+      The other two — <strong>AML Anomaly Detection</strong> and <strong>Land
+      Valuation Model</strong> — are different, and each says so at the top of its
+      README: they are reference implementations on generated data. The modeling
+      decisions are the ones I would deploy; the deployments do not exist yet.
     </p>
   </div>
 
