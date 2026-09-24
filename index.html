@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>José Paz Rangel Rojas — Data &amp; Machine Learning Engineering</title>
+<meta name="description" content="Production data systems for a real estate and media group in Mexico: ELT into Snowflake, AML regulatory reporting, geospatial dashboards and unsupervised anomaly detection.">
+
+<style>
+:root{
+  --bg:#0e1116;
+  --surface:#161b22;
+  --surface-2:#1c2330;
+  --border:#252c38;
+  --text:#e6edf3;
+  --text-dim:#9aa7b4;
+  --text-faint:#6e7b8a;
+  --accent:#4f9cf9;
+  --accent-soft:rgba(79,156,249,.12);
+  --green:#3fb950;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  top:-200px;left:50%;
+  transform:translateX(-50%);
+  width:900px;height:500px;
+  background:radial-gradient(ellipse,rgba(79,156,249,.10) 0%,transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:980px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+/* ---------- hero ---------- */
+
+header{padding:88px 0 56px}
+
+.eyebrow{
+  font-size:13px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  font-weight:600;
+  margin-bottom:18px;
+}
+
+h1{
+  font-size:clamp(32px,5.5vw,46px);
+  line-height:1.15;
+  font-weight:700;
+  letter-spacing:-.02em;
+  margin-bottom:20px;
+}
+
+.lede{
+  font-size:clamp(16px,2.2vw,18.5px);
+  color:var(--text-dim);
+  max-width:660px;
+}
+
+.lede strong{color:var(--text);font-weight:600}
+
+.links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:32px;
+}
+
+.links a{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 16px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--surface);
+  color:var(--text);
+  text-decoration:none;
+  font-size:14.5px;
+  font-weight:500;
+  transition:border-color .15s,background .15s;
+}
+
+.links a:hover{border-color:var(--accent);background:var(--surface-2)}
+
+/* ---------- stats ---------- */
+
+.stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  overflow:hidden;
+  margin-bottom:64px;
+}
+
+.stat{
+  flex:1 1 140px;
+  padding:20px 22px;
+  border-right:1px solid var(--border);
+}
+
+.stat:last-child{border-right:none}
+
+.stat b{
+  display:block;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-.01em;
+}
+
+.stat span{
+  font-size:12.5px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+/* ---------- section ---------- */
+
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  margin-bottom:8px;
+}
+
+h2{
+  font-size:20px;
+  font-weight:650;
+  letter-spacing:-.01em;
+  white-space:nowrap;
+}
+
+.section-head::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+.section-note{
+  color:var(--text-faint);
+  font-size:14.5px;
+  margin-bottom:28px;
+}
+
+/* ---------- cards ---------- */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+  gap:18px;
+  margin-bottom:64px;
+}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  padding:22px 22px 18px;
+  transition:border-color .15s,transform .15s;
+}
+
+.card:hover{border-color:#37506e;transform:translateY(-2px)}
+
+.card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  font-size:16.5px;
+  font-weight:650;
+  letter-spacing:-.01em;
+}
+
+.badge{
+  flex-shrink:0;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 9px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  color:var(--text-faint);
+  white-space:nowrap;
+}
+
+.badge.live{
+  color:var(--green);
+  border-color:rgba(63,185,80,.35);
+  background:rgba(63,185,80,.08);
+}
+
+.card p{
+  font-size:14.5px;
+  color:var(--text-dim);
+  flex:1;
+  margin-bottom:16px;
+}
+
+.card p em{
+  color:var(--text);
+  font-style:normal;
+  font-weight:600;
+}
+
+.card p code{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:13px;
+  padding:1px 5px;
+  border-radius:4px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:18px;
+}
+
+.chip{
+  font-size:12px;
+  padding:3px 9px;
+  border-radius:6px;
+  background:var(--surface-2);
+  color:var(--text-faint);
+  border:1px solid var(--border);
+}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.btn{
+  flex:1;
+  min-width:120px;
+  text-align:center;
+  padding:8px 14px;
+  border-radius:7px;
+  font-size:14px;
+  font-weight:550;
+  text-decoration:none;
+  border:1px solid var(--border);
+  color:var(--text);
+  background:var(--surface-2);
+  transition:border-color .15s,background .15s;
+}
+
+.btn:hover{border-color:var(--accent);background:var(--accent-soft)}
+
+.btn.primary{
+  background:var(--accent-soft);
+  border-color:rgba(79,156,249,.35);
+  color:#8cc0ff;
+}
+
+.btn.primary:hover{background:rgba(79,156,249,.2)}
+
+/* ---------- note ---------- */
+
+.note{
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:8px;
+  background:var(--surface);
+  padding:20px 24px;
+  font-size:14.5px;
+  color:var(--text-dim);
+  margin-bottom:56px;
+}
+
+.note h2{font-size:16px;margin-bottom:10px;color:var(--text)}
+.note p+p{margin-top:12px}
+.note strong{color:var(--text);font-weight:600}
+
+/* ---------- footer ---------- */
+
+footer{
+  border-top:1px solid var(--border);
+  padding:28px 0 56px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  font-size:13.5px;
+  color:var(--text-faint);
+}
+
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:560px){
+  header{padding:56px 0 40px}
+  .grid{grid-template-columns:1fr}
+  .stat{flex-basis:50%;border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Data &amp; Machine Learning Engineering</div>
+    <h1>José Paz Rangel Rojas</h1>
+    <p class="lede">
+      I build the data systems a real estate and media group in Mexico runs on:
+      <strong>incremental ELT into Snowflake</strong>, <strong>anti-money-laundering
+      regulatory reporting</strong>, <strong>geospatial dashboards</strong> and
+      <strong>unsupervised anomaly detection</strong>. Actuary by training, which is
+      mostly why I care whether a number can be defended.
+    </p>
+
+    <div class="links">
+      <a href="https://github.com/chino-bot1701">GitHub</a>
+      <a href="mailto:pazjpaz17@gmail.com">pazjpaz17@gmail.com</a>
+      <!-- Para agregar LinkedIn, descomenta y pon tu URL:
+      <a href="https://www.linkedin.com/in/TU-USUARIO/">LinkedIn</a>
+      -->
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>6</b><span>Production systems</span></div>
+    <div class="stat"><b>R · Python</b><span>Both, in production</span></div>
+    <div class="stat"><b>Snowflake</b><span>Warehouse &amp; Cortex</span></div>
+    <div class="stat"><b>LFPIORPI</b><span>AML compliance domain</span></div>
+  </div>
+
+  <div class="section-head"><h2>Projects</h2></div>
+  <p class="section-note">
+    Every demo runs on synthetic data and needs no credentials. Free instances sleep —
+    the first load takes about 40 seconds.
+  </p>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>Property Portfolio — Geospatial</h3>
+        <span class="badge live">Live demo</span>
+      </div>
+      <p>
+        A 300-property portfolio on one map. Surface area is <em>measured geodesically
+        from each parcel's own polygon</em> instead of trusted from a field that was
+        often missing or wrong, and acquisition prices are restated for inflation so a
+        portfolio total means something. Built twice — R/Shiny and Python/Dash — over the
+        same warehouse, plus a natural-language query box on a Snowflake Cortex agent.
+      </p>
+      <div class="chips">
+        <span class="chip">R</span><span class="chip">Shiny</span>
+        <span class="chip">Python</span><span class="chip">Dash</span>
+        <span class="chip">Leaflet</span><span class="chip">pyproj</span>
+        <span class="chip">Snowflake Cortex</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://property-portfolio-geo.streamlit.app">Open demo</a>
+        <a class="btn" href="https://github.com/chino-bot1701/property-portfolio-geo">Code</a>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>AML Anomaly Detection</h3>
+        <span class="badge live">Live demo</span>
+      </div>
+      <p>
+        Nobody ever labelled a transaction as laundering, so a classifier is off the
+        table. This learns <em>what is normal for each client</em> and ranks what departs
+        from it. <code>contamination</code> comes from the team's actual review capacity,
+        validation is an expanding window, and the evaluation is reported twice — with
+        labels, and the way production will have to, without them.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">scikit-learn</span>
+        <span class="chip">Isolation Forest</span><span class="chip">Streamlit</span>
+        <span class="chip">Unsupervised</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://pld-anomaly-detection.streamlit.app">Open demo</a>
+        <a class="btn" href="https://github.com/chino-bot1701/pld-anomaly-detection">Code</a>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>ERP → Snowflake ELT</h3>
+        <span class="badge">Runnable locally</span>
+      </div>
+      <p>
+        24 entities pulled from a paginated ERP API into Snowflake from <em>one
+        declarative catalog</em>, merged by row hash so a re-stamped modification date
+        writes nothing. Includes a fingerprint reconciler, data-quality views and drift
+        probes. The demo runs four passes against SQLite: pass three proves the merge is
+        idempotent.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">Snowflake</span>
+        <span class="chip">ELT</span><span class="chip">Idempotent merge</span>
+        <span class="chip">Data quality</span>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://github.com/chino-bot1701/erp-snowflake-elt">Code &amp; demo script</a>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>AML Regulatory Connector</h3>
+        <span class="badge live">Live demo</span>
+      </div>
+      <p>
+        End-to-end reporting for Mexico's LFPIORPI: ERP to Snowflake to a Streamlit app
+        behind AWS Cognito. The hard part was not the API — it was <em>modelling partial
+        payments, VAT and multi-invoice collections</em> so the reported amount is the
+        one that actually changed hands, instead of over-reporting and having to amend.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">Streamlit</span>
+        <span class="chip">Snowflake</span><span class="chip">AWS Cognito</span>
+        <span class="chip">Docker</span><span class="chip">RegTech</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://aml-regulatory-connector.streamlit.app">Open demo</a>
+        <a class="btn" href="https://github.com/chino-bot1701/aml-regulatory-connector">Code</a>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>Bank Reconciliation — Host-to-Host</h3>
+        <span class="badge">Runnable locally</span>
+      </div>
+      <p>
+        An hourly bank feed reconciled against ERP invoices. Runs on a <em>six-hour
+        overlapping window</em> because banks backfill, and stays idempotent so the
+        overlap costs nothing. Extracts tax IDs out of free-text bank descriptions and
+        matches instalments and grouped payments.
+      </p>
+      <div class="chips">
+        <span class="chip">R</span><span class="chip">Shiny</span>
+        <span class="chip">Snowflake</span><span class="chip">Banking API</span>
+        <span class="chip">Reconciliation</span>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://github.com/chino-bot1701/bank-reconciliation-h2h">Code &amp; demo script</a>
+      </div>
+    </article>
+
+    <!-- 6 -->
+    <article class="card">
+      <div class="card-top">
+        <h3>Bank Statement Consolidator</h3>
+        <span class="badge">Runnable locally</span>
+      </div>
+      <p>
+        My first project here, and the one that started the rest: an Excel VBA macro
+        rebuilt as an R/Shiny app. Consolidates statements from multiple accounts whose
+        headers never sit on the same row, and classifies every movement through
+        <em>78 rules</em>. 525 movements, none left unclassified.
+      </p>
+      <div class="chips">
+        <span class="chip">R</span><span class="chip">Shiny</span>
+        <span class="chip">VBA migration</span><span class="chip">ETL</span>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://github.com/chino-bot1701/bank-statement-consolidator">Code &amp; demo script</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="note">
+    <h2>About these repositories</h2>
+    <p>
+      Five of the six are <strong>real production systems, rewritten for public
+      release</strong>. Companies, tenants, properties, tax IDs, bank accounts, people
+      and vendor endpoints are invented; credentials live in environment variables and
+      are not included; sample data is generated and matches the shape of the real data,
+      not its content. The architecture, the business rules and the engineering
+      decisions are the real ones — that is the part worth showing.
+    </p>
+    <p>
+      The sixth, <strong>AML Anomaly Detection</strong>, is different and says so at the
+      top of its README: it is a reference implementation on generated data, and the
+      production system it is modeled on is in design, not deployed.
+    </p>
+  </div>
+
+  <footer>
+    <span>José Paz Rangel Rojas · México</span>
+    <span>
+      <a href="https://github.com/chino-bot1701">github.com/chino-bot1701</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
