@@ -353,7 +353,7 @@ footer a:hover{color:var(--accent)}
   </header>
 
   <div class="stats">
-    <div class="stat"><b>7</b><span>Production systems</span></div>
+    <div class="stat"><b>8</b><span>Production systems</span></div>
     <div class="stat"><b>R · Python</b><span>Both, in production</span></div>
     <div class="stat"><b>Snowflake</b><span>Warehouse &amp; Cortex</span></div>
     <div class="stat"><b>LFPIORPI</b><span>AML compliance domain</span></div>
@@ -420,6 +420,30 @@ footer a:hover{color:var(--accent)}
     <!-- 3 -->
     <article class="card">
       <div class="card-top">
+        <h3>Retail Space Manager</h3>
+        <span class="badge live">Live demo</span>
+      </div>
+      <p>
+        Leasing system for three shopping centres: floor plan, availability,
+        tenants and history. Handing a unit back <em>never deletes anything</em> —
+        it posts a negative-square-metre entry, so occupancy is the running sum
+        and the history cannot drift from the current state. Drag the date slider
+        and the plan redraws for any month since 2022, with no historical tables.
+      </p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">Streamlit</span>
+        <span class="chip">Append-only ledger</span><span class="chip">Altair</span>
+        <span class="chip">Domain modeling</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://retail-space-manager.streamlit.app">Open demo</a>
+        <a class="btn" href="https://github.com/chino-bot1701/retail-space-manager">Code</a>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="card">
+      <div class="card-top">
         <h3>AML Anomaly Detection</h3>
         <span class="badge live">Live demo</span>
       </div>
@@ -441,7 +465,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 4 -->
+    <!-- 5 -->
     <article class="card">
       <div class="card-top">
         <h3>ERP → Snowflake ELT</h3>
@@ -464,7 +488,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 5 -->
+    <!-- 6 -->
     <article class="card">
       <div class="card-top">
         <h3>AML Regulatory Connector</h3>
@@ -487,7 +511,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 6 -->
+    <!-- 7 -->
     <article class="card">
       <div class="card-top">
         <h3>Bank Reconciliation — Host-to-Host</h3>
@@ -509,7 +533,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
 
-    <!-- 7 -->
+    <!-- 8 -->
     <article class="card">
       <div class="card-top">
         <h3>Bank Statement Consolidator</h3>
@@ -535,12 +559,15 @@ footer a:hover{color:var(--accent)}
   <div class="note">
     <h2>About these repositories</h2>
     <p>
-      Five of the seven are <strong>real production systems, rewritten for public
+      Six of the eight are <strong>real production systems, rewritten for public
       release</strong>. Companies, tenants, properties, tax IDs, bank accounts, people
       and vendor endpoints are invented; credentials live in environment variables and
       are not included; sample data is generated and matches the shape of the real data,
       not its content. The architecture, the business rules and the engineering
       decisions are the real ones — that is the part worth showing.
+      <strong>Retail Space Manager</strong> is the one rebuild: same data model and
+      same rules, ported from R/Shiny to Python, with three defects of the original
+      fixed and documented.
     </p>
     <p>
       The other two — <strong>AML Anomaly Detection</strong> and <strong>Land
